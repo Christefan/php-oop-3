@@ -12,7 +12,7 @@ class Cibo {
     }
 
     public function getInfo() {
-        return  'Descrizione cibo: '. $this->descrizione . '</br>' . 'Tipo di cibo: ' . $this->tipo;
+        return 'Nome prodotto: ' . $this->nome . '</br>' . ' Prezzo prodotto: ' . $this->prezzo . '</br>' . 'Descrizione cibo: '. $this->descrizione . '</br>' . 'Tipo di cibo: ' . $this->tipo;
     }
 }
 ?>
