@@ -19,6 +19,7 @@ class Utente {
     }
 
     function getTotalPrice() {
+        if($this->scadenza == false){
         $total_price = 0;
         foreach($this->cart as $item) {
             $total_price += $item->prezzo;
@@ -28,5 +29,8 @@ class Utente {
             $total_price = $total_price - $sconto;
         }
         return $total_price;
+        }else{
+            throw new Exception("Carta di credito scaduta");
+        }
     }
 }

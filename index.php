@@ -12,8 +12,9 @@ $acana_cat = new Cibo("Contiene il 75% di pesce e carne (agnello, anatra, tacchi
 $acana_cat -> setProdotto("ACANA CAT PACIFICA REGIONALS 25", 25 );
 // echo  $acana_cat ->getProdotto();
 $acana_dog = new Cibo("La ricetta di Acana Pacifica contiene il 70% di pesce da pesca sostenibile nelle acque canadesi del Pacifico del Nord e si rifà alle naturali esigenze nutrizionali del vostro cane e per il suo piano nutrizionale segue l’esempio dei suoi antenati in natura." , "Croccantini");
-$acana_cat -> setProdotto("ACANA DOG PACIFICA REGIONALS 25", 25 ,);
-$trixie_dog_1 = new Giochi("Trixie Dog Activity Poker Box", 15 ,"4 scatole con diversi meccanismi di apertura, riempibili con snack, in plastica con piedini antiscivolo.","Gioco d'intelligenza");
+$acana_dog -> setProdotto("ACANA DOG PACIFICA REGIONALS 25", 25 ,);
+
+$trixie_dog_1 = new Giochi("4 scatole con diversi meccanismi di apertura, riempibili con snack, in plastica con piedini antiscivolo.","Gioco d'intelligenza");
 
 $chris = new Utente("Christian","mmmmm@gmail.com");
 $chris->addProductToCart($acana_cat);
@@ -30,6 +31,15 @@ $paolo->addProductToCart($acana_cat);
 $paolo->addProductToCart($acana_dog);
 $paolo->scadenza = false ;
 
+// Utilizziamo la funzione getTotalPrice con l'eccezione
+// Se la carta risulta scaduta True (Utente.getTotalPrice) allora deve mostrare in pagina nel carello del utente X un avviso di errore per il pagamanto
+/*
+try {
+    $user->getTotalPrice();
+} catch (Exception $e){
+    echo   $e->getMessage();
+}
+*/
 $arr = [$chris,$marc,$paolo];
 ?>
 <!DOCTYPE html>
@@ -45,15 +55,19 @@ $arr = [$chris,$marc,$paolo];
     <?php foreach($arr as $user) {?>
         <li>
             <h1><?php echo $user->name; ?></h1>
-            <?php if($user->scadenza === false) {?>
+            <?php  
+            try{
+                $user->getTotalPrice();
+            ?>
             <ul>
                 <?php foreach($user->cart as $cartItem) { ?>
                     <li><?php echo $cartItem->getInfo();?></li>
                 <?php } ?>
             </ul>
             <h2>Totale : <?php echo $user->getTotalPrice(); ?> <h2>
-            <?php } else {?>
-                <p>Carta di credito scaduta </p>
+            <?php } 
+            catch (Exception $e){?>
+                <p><?php  echo "ERRORE :" . $e->getMessage(); ?></p>
             <?php }?>
         </li>
     <?php } ?>
